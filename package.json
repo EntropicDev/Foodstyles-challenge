@@ -8,7 +8,7 @@
     "start": "NODE_ENV=prod node -r ts-node/register src/app.ts",
     "dev": "NODE_ENV=dev nodemon --exec node -r ts-node/register src/app.ts",
     "live-dev": "NODE_ENV=prod nodemon --exec node -r ts-node/register src/app.ts",
-    "syncDB-prod": "NODE_ENV=prod node -r ts-node/register src/database/sync.ts",
+    "syncDB-prod": "NODE_ENV=prod node -r ts-node/register src/sync.db.ts",
     "syncDB-dev": "NODE_ENV=dev node -r ts-node/register src/sync.db.ts",
     "start-docker": "docker build -t foodstyles-challenge-api . && docker run --env-file .env -p 8001:8001 foodstyles-challenge-api"
   },
