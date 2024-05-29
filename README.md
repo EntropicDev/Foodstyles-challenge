@@ -9,7 +9,7 @@ To get started with this project, follow these steps:
 1. **Clone the repository:**
 
    ```bash
-   git clone git@github.com:EntropicDev/Foodstyles-challenge.git
+   git clone git@github.com:EntropicDev/foodstyles-challenge.git
    ```
 
 2. **Set up MySQL schema:**
