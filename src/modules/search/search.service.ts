@@ -5,11 +5,6 @@ import { DietRepo } from "../diet/diet.repo";
 import { DishTypeRepo } from "../dish-type/dish-type.repo";
 import { SearchRepo } from "./search.repo";
 import { prepositions } from "./search.exlusions";
-import { Brand } from "../brand/brand.model";
-import { City } from "../city/city.model";
-import { Diet } from "../diet/diet.model";
-import { DishType } from "../dish-type/dish-type.model";
-import { db } from "../../config.db";
 
 export class SearchService {
   constructor() {}
