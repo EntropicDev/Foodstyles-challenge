@@ -1,7 +1,8 @@
 import { SQLDB, SQLDialect, SQLHost, SQLPWD, SQLPort, SQLUser } from "./config";
-import { GroupDef } from "./modules/group/group.db";
-import { PermissionDef } from "./modules/permission/permission.db";
-import { UserDef } from "./modules/user/user.db";
+import { BrandDef } from "./modules/brand/brand.db";
+import { CityDef } from "./modules/city/city.db";
+import { DietDef } from "./modules/diet/diet.db";
+import { DishTypeDef } from "./modules/dish-type/dish-type.db";
 const Sequelize = require("sequelize");
 const sequelize = new Sequelize(
   SQLDB,
@@ -21,20 +22,12 @@ export const db = {
   Sequelize: Sequelize,
   sequelize: sequelize,
   Op: Sequelize.Op,
-  User: UserDef(sequelize, Sequelize),
-  Permission: PermissionDef(sequelize, Sequelize),
-  Group: GroupDef(sequelize, Sequelize),
+  Diet: DietDef(sequelize, Sequelize),
+  DishType: DishTypeDef(sequelize, Sequelize),
+  Brand: BrandDef(sequelize, Sequelize),
+  City: CityDef(sequelize, Sequelize),
 };
 
 /* 
     Relationship Declarations
 */
-// Permission Relationships
-db.Permission.belongsToMany(db.Group, { through: "groupPermissions" });
-
-// Group Relationships
-db.Group.belongsToMany(db.Permission, { through: "groupPermissions" });
-db.Group.belongsToMany(db.User, { through: "userGroups" });
-
-// User Relationships
-db.User.belongsToMany(db.Group, { through: "userGroups" });

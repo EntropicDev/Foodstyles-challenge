@@ -17,7 +17,3 @@ export const SQLPWD = process.env.SQL_PASSWORD;
 export const SQLHost = process.env.SQL_HOST;
 export const SQLPort = process.env.SQL_PORT;
 export const SQLLogging = process.env.SQL_LOGGING;
-
-// JWT Variables
-export const jwtSecret = process.env.JWT_SECRET;
-export const jwtExpiration = process.env.JWT_EXPIRATION;
