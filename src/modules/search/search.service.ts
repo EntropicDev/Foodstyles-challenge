@@ -5,6 +5,7 @@ import { DietRepo } from "../diet/diet.repo";
 import { DishTypeRepo } from "../dish-type/dish-type.repo";
 import { SearchRepo } from "./search.repo";
 import { prepositions } from "./search.exlusions";
+import { db } from "../../config.db";
 
 export class SearchService {
   constructor() {}
@@ -31,7 +32,7 @@ export class SearchService {
 
   I have instead opted to query each entity concurrently using Promise.all() to reduce the time taken to query the database.
 */
-  extractEntities = async (searchTerm: string): Promise<any> => {
+  extractEntitiesConcurrent = async (searchTerm: string): Promise<any> => {
     try {
       let searchTerms = searchTerm.split(" ");
       // Remove all prepositions from searchTerms using the prepositions array
@@ -55,6 +56,42 @@ export class SearchService {
       });
 
       return results;
+    } catch (error: any) {
+      this.errorHandler.passthrough(error, "Service: extractEntities");
+    }
+  };
+  extractEntities = async (searchTerm: string): Promise<any> => {
+    try {
+      const searchTerms = searchTerm
+        .split(" ")
+        .filter((term) => !prepositions.includes(term))
+        .map((term) => term.trim());
+
+      const whereClause = searchTerms
+        .map((term) => `name LIKE '%${term}%'`)
+        .join(" OR ");
+
+      const query = `
+    SELECT 'brand' as entity, id , name FROM brands WHERE ${whereClause}
+    UNION ALL
+    SELECT 'city' as entity, id , name FROM cities WHERE ${whereClause}
+    UNION ALL
+    SELECT 'diet' as entity, id , name FROM diets WHERE ${whereClause}
+    UNION ALL
+    SELECT 'dishType' as entity, id , name FROM dishTypes WHERE ${whereClause};
+  `;
+      const [results] = await db.sequelize.query(query);
+
+      const groupedData = results.reduce((accumulator: any, item: any) => {
+        const { entity, ...rest } = item; // Destructure to remove 'entity' key
+        if (!accumulator[entity]) {
+          accumulator[entity] = [];
+        }
+        accumulator[entity].push(rest); // Push the item without the 'entity' key
+        return accumulator;
+      }, {});
+      let permutations = this.generatePermutations(groupedData);
+      return permutations;
     } catch (error: any) {
       this.errorHandler.passthrough(error, "Service: extractEntities");
     }

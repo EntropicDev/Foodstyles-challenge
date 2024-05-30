@@ -48,6 +48,8 @@ The server will be running at `http://localhost:8001`.
 
 To interact with the API, you can use tools like Postman. Make a GET request to `http://localhost:8001/search/:searchTerm`, where `:searchTerm` is any string value, which may include spaces.
 
+An alternative to the UNION query is tested through a GET request to `http://localhost:8001/searchConcurrent/:searchTerm`, where `:searchTerm` is any string value, which may include spaces.
+
 ## Contributing
 
 Contributions are welcome! If you'd like to contribute to this project, please follow these steps:

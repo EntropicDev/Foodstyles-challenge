@@ -11,4 +11,16 @@ export function searchAPI(app: any) {
       errorHandler.apiErrorHandler(err, res);
     }
   });
+  app.get(
+    "/searchConcurrent/:searchTerm",
+    async (req: any, res: any, next: any) => {
+      try {
+        res.json(
+          await searchService.extractEntitiesConcurrent(req.params.searchTerm)
+        );
+      } catch (err: any) {
+        errorHandler.apiErrorHandler(err, res);
+      }
+    }
+  );
 }
