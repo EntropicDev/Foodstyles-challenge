@@ -57,7 +57,10 @@ export class SearchService {
 
       return results;
     } catch (error: any) {
-      this.errorHandler.passthrough(error, "Service: extractEntities");
+      this.errorHandler.passthrough(
+        error,
+        "Service: extractEntitiesConcurrent"
+      );
     }
   };
   extractEntities = async (searchTerm: string): Promise<any> => {
